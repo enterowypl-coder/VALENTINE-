@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Będziesz moją Walentynką?</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #fff5f7 0%, #ffdee9 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Floating Hearts Animation Background */
+        .bg-heart {
+            position: absolute;
+            color: rgba(255, 77, 109, 0.2);
+            font-size: 20px;
+            user-select: none;
+            z-index: 0;
+            animation: float 6s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(255, 105, 180, 0.4);
+            text-align: center;
+            max-width: 90%;
+            width: 400px;
+            z-index: 10;
+            position: relative;
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 3px solid #ff4d6d;
+        }
+
+        h1 {
+            color: #d63384;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            height: 60px;
+            position: relative;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 18px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        #yesBtn {
+            background-color: #ff4d6d;
+            color: white;
+        }
+
+        #noBtn {
+            background-color: #adb5bd;
+            color: white;
+            position: absolute;
+            right: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <img src="1000035895.jpg" alt="Valentine Image" id="valImg">
+        
+        <h1 id="question">Will you be my Valentine?</h1>
+
+        <div class="btn-container">
+            <button id="yesBtn" onclick="celebrate()">Yes!</button>
+            <button id="noBtn" onmouseover="moveButton()" onclick="moveButton()">No</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    
+    <script>
+        // Create background floating hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('bg-heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 6000);
+        }
+        setInterval(createHeart, 300);
+
+        // Make "No" button run away
+        function moveButton() {
+            const noBtn = document.getElementById('noBtn');
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 50);
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+        }
+
+        // Success celebration
+        function celebrate() {
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#ff4d6d', '#ffffff']
+            });
+            document.getElementById('question').innerHTML = "I knew you'd say yes! ❤️";
+            document.getElementById('noBtn').style.display = 'none';
+            document.getElementById('yesBtn').innerHTML = "Perfect! 🥰";
+            document.getElementById('yesBtn').style.transform = "scale(1.2)";
+        }
+    </script>
+</body>
+</html>
